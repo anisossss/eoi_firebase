@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e94560" />
+    <meta
+      name="description"
+      content="Mining safety incident management and checklist application"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Safety App" />
+    <title>Mining Safety Dashboard - CSIR EOI 8119</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <svg
+              class="logo-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"
+              />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <h1>Mining Safety Dashboard</h1>
+          </div>
+          <nav class="nav">
+            <button class="nav-btn active" data-view="dashboard">
+              Dashboard
+            </button>
+            <button class="nav-btn" data-view="incidents">Incidents</button>
+            <button class="nav-btn" data-view="checklists">Checklists</button>
+            <button class="nav-btn" data-view="alerts">Alerts</button>
+          </nav>
+          <div class="user-menu">
+            <span id="userName">Guest</span>
+            <button id="loginBtn" class="btn btn-primary">Login</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard View -->
+        <section id="dashboardView" class="view active">
+          <div class="view-header">
+            <h2>Safety Overview</h2>
+            <p>Real-time mining safety monitoring</p>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon warning">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-value" id="todayIncidents">0</span>
+                <span class="stat-label">Today's Incidents</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon danger">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-value" id="criticalIncidents">0</span>
+                <span class="stat-label">Critical Issues</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon success">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-value" id="completedChecklists">0</span>
+                <span class="stat-label">Checklists Completed</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon info">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-value" id="safetyScore">--</span>
+                <span class="stat-label">Safety Score</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Section -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3>Weekly Incidents</h3>
+              <div class="chart-container" id="incidentChart">
+                <div class="bar-chart">
+                  <div class="bar" style="height: 40%" data-value="4">
+                    <span>Mon</span>
+                  </div>
+                  <div class="bar" style="height: 20%" data-value="2">
+                    <span>Tue</span>
+                  </div>
+                  <div class="bar" style="height: 60%" data-value="6">
+                    <span>Wed</span>
+                  </div>
+                  <div class="bar" style="height: 30%" data-value="3">
+                    <span>Thu</span>
+                  </div>
+                  <div class="bar" style="height: 50%" data-value="5">
+                    <span>Fri</span>
+                  </div>
+                  <div class="bar" style="height: 10%" data-value="1">
+                    <span>Sat</span>
+                  </div>
+                  <div class="bar" style="height: 20%" data-value="2">
+                    <span>Sun</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3>Incident Severity</h3>
+              <div class="chart-container">
+                <div class="severity-breakdown">
+                  <div class="severity-item">
+                    <span class="severity-dot critical"></span>
+                    <span class="severity-label">Critical</span>
+                    <span class="severity-value" id="severityCritical">0</span>
+                  </div>
+                  <div class="severity-item">
+                    <span class="severity-dot high"></span>
+                    <span class="severity-label">High</span>
+                    <span class="severity-value" id="severityHigh">0</span>
+                  </div>
+                  <div class="severity-item">
+                    <span class="severity-dot medium"></span>
+                    <span class="severity-label">Medium</span>
+                    <span class="severity-value" id="severityMedium">0</span>
+                  </div>
+                  <div class="severity-item">
+                    <span class="severity-dot low"></span>
+                    <span class="severity-label">Low</span>
+                    <span class="severity-value" id="severityLow">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Incidents -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Recent Incidents</h3>
+              <button class="btn btn-secondary" onclick="showView('incidents')">
+                View All
+              </button>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Reported</th>
+                  </tr>
+                </thead>
+                <tbody id="recentIncidentsTable">
+                  <tr>
+                    <td colspan="6" class="empty-state">No recent incidents</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Incidents View -->
+        <section id="incidentsView" class="view">
+          <div class="view-header">
+            <h2>Incident Management</h2>
+            <button class="btn btn-primary" id="newIncidentBtn">
+              Report Incident
+            </button>
+          </div>
+          <div class="filters">
+            <select id="incidentStatusFilter">
+              <option value="">All Statuses</option>
+              <option value="reported">Reported</option>
+              <option value="investigating">Investigating</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+            <select id="incidentSeverityFilter">
+              <option value="">All Severities</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Severity</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th>Reported By</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="incidentsTable">
+                <tr>
+                  <td colspan="8" class="empty-state">Loading incidents...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Checklists View -->
+        <section id="checklistsView" class="view">
+          <div class="view-header">
+            <h2>Safety Checklists</h2>
+            <button class="btn btn-primary" id="newChecklistBtn">
+              Create Checklist
+            </button>
+          </div>
+          <div class="checklist-grid" id="checklistGrid">
+            <div class="empty-state">Loading checklists...</div>
+          </div>
+        </section>
+
+        <!-- Alerts View -->
+        <section id="alertsView" class="view">
+          <div class="view-header">
+            <h2>Safety Alerts</h2>
+            <button class="btn btn-primary" id="newAlertBtn">
+              Create Alert
+            </button>
+          </div>
+          <div class="alerts-list" id="alertsList">
+            <div class="empty-state">No active alerts</div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>CSIR EOI 8119/06/02/2026 - Mining Safety Dashboard</p>
+        <p>Demonstrating Firebase, Cloud Services, and Node.js Proficiency</p>
+      </footer>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modalContainer" class="modal-overlay hidden">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="modalTitle">Modal Title</h3>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
