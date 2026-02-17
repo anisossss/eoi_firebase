@@ -31,8 +31,8 @@ export function initializeFirebase(): void {
         projectId: process.env.FIREBASE_PROJECT_ID
       });
     }
-    // Option 2: Use environment variables
-    else if (process.env.FIREBASE_PROJECT_ID) {
+    // Option 2: Use environment variables with full credentials
+    else if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
       const serviceAccount = {
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
@@ -44,14 +44,13 @@ export function initializeFirebase(): void {
         projectId: process.env.FIREBASE_PROJECT_ID
       });
     }
-    // Option 3: Use emulator for development
+    // Option 3: Demo mode - project ID only (no credentials needed)
     else {
-      console.log('Using Firebase Emulator');
-      process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
-      process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
-      
+      const projectId = process.env.FIREBASE_PROJECT_ID || 'csir-eoi-8119-demo';
+      console.log(`Initializing Firebase in demo mode (project: ${projectId})`);
+
       admin.initializeApp({
-        projectId: 'csir-eoi-8119-demo'
+        projectId
       });
     }
 

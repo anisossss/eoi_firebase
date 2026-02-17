@@ -49,6 +49,3 @@ README.md
 **/*.spec.js
 __tests__
 jest.config.*
-
-# TypeScript config (already in Dockerfile)
-tsconfig.json
