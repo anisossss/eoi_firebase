@@ -72,20 +72,22 @@ export function initializeFirebase(): void {
 
 /**
  * Get Firestore database instance
+ * Auto-initializes Firebase if not yet initialized
  */
 export function getDb(): Firestore {
   if (!db) {
-    throw new Error('Firestore not initialized. Call initializeFirebase() first.');
+    initializeFirebase();
   }
   return db;
 }
 
 /**
  * Get Firebase Auth instance
+ * Auto-initializes Firebase if not yet initialized
  */
 export function getAuthInstance(): Auth {
   if (!auth) {
-    throw new Error('Firebase Auth not initialized. Call initializeFirebase() first.');
+    initializeFirebase();
   }
   return auth;
 }
